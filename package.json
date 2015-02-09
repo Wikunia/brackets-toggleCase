@@ -1,0 +1,12 @@
+{
+  "name": "togglecase",
+  "title":"ToggleCase",
+  "description": "Toggle the case of the current word",
+  "homepage": "https://github.com/Wikunia/brackets-toggleCase",
+  "version": "0.1.0",
+  "author": "Ole Kröger",
+  "licence": "MIT",
+  "engines": {
+    "brackets": ">=0.23.0"
+  }
+}
