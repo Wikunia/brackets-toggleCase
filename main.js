@@ -7,22 +7,32 @@ define(function (require, exports, module) {
         EditorManager       = brackets.getModule("editor/EditorManager"),
         KeyEvent            = brackets.getModule("utils/KeyEvent");
 
-
+	// set variable to true if altKey and shiftKey were true on the last keydown event
+	var lastBothTrue = false;
+	
     var keyEventHandler = function ($event, editor, event) {
-        
-		if (event.altKey && event.shiftKey) {
+        if (event.type == "keydown") {
+			lastBothTrue = (event.altKey && event.shiftKey) ? true : false;
+		}
+		
+		var arrayKeyCodes = [KeyEvent.DOM_VK_ALT,KeyEvent.DOM_VK_SHIFT];
+		if (lastBothTrue && (event.altKey || event.shiftKey) && event.type == "keyup" && arrayKeyCodes.indexOf(event.keyCode) >= 0) {
+			// get the part of the current line in front of the cursor
 			var pos 			= editor.getCursorPos();
 			var document    	= editor.document;
 			var linePartBefore 	= document.getLine(pos.line).substr(0,pos.ch);
+			
 			var reverse 		= reverse_str(linePartBefore); 
 			// characters which can be part of a word
         	var function_chars = '0123456789abcdefghijklmnopqrstuvwxyz_';
 			var noword_regex = new RegExp('[^'+function_chars+']','i');
+			// check if there is a character which isn't part of a word
 			var match 		 = noword_regex.exec(reverse);
 			var word_start;
 			if (match) {
 				word_start = pos.ch - match.index;	
 			} else {
+				// first word in a line
 				word_start = 0;	
 			}
 			var firstchar = linePartBefore.charAt(word_start);
