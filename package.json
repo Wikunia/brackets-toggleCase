@@ -3,7 +3,7 @@
   "title":"ToggleCase",
   "description": "Toggle the case of the current word",
   "homepage": "https://github.com/Wikunia/brackets-toggleCase",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "Ole Kröger",
   "licence": "MIT",
   "engines": {

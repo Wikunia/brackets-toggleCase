@@ -11,12 +11,15 @@ define(function (require, exports, module) {
 	var lastBothTrue = false;
 	
     var keyEventHandler = function ($event, editor, event) {
-        if (event.type == "keydown") {
-			lastBothTrue = (event.altKey && event.shiftKey) ? true : false;
-		}
+       	var arrayKeyCodes = [KeyEvent.DOM_VK_ALT,KeyEvent.DOM_VK_SHIFT];
+       	if (event.type == "keydown") {
+			lastBothTrue = (event.altKey && event.shiftKey && arrayKeyCodes.indexOf(event.keyCode) >= 0) ? true : false;
+	   	}
 		
-		var arrayKeyCodes = [KeyEvent.DOM_VK_ALT,KeyEvent.DOM_VK_SHIFT];
-		if (lastBothTrue && (event.altKey || event.shiftKey) && event.type == "keyup" && arrayKeyCodes.indexOf(event.keyCode) >= 0) {
+		
+		var nrOfselections = editor.getSelections().length;	
+		if (nrOfselections == 1 && lastBothTrue && (event.altKey || event.shiftKey) 
+			&& event.type == "keyup" && arrayKeyCodes.indexOf(event.keyCode) >= 0) {
 			// get the part of the current line in front of the cursor
 			var pos 			= editor.getCursorPos();
 			var document    	= editor.document;
